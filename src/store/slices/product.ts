@@ -1,10 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Product } from "../../model/Product";
 import { fetchProductById, fetchProducts } from "../thunks/product";
+import products from '../mock/products.json'
 
+type InitialStateType = {
+  products: Product[],
+  productDetail: Product | null,
+  isLoading: boolean,
 
-const InitialState = {
-  products: [],
-  productDetail: {},
+}
+
+const InitialState: InitialStateType = {
+  products: products,
+  productDetail: null,
   isLoading: false,
 };
 

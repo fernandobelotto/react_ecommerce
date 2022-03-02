@@ -1,40 +1,61 @@
-import { Box, Button, Heading, Skeleton, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, HStack, IconButton, Image, Text, VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { FaHeart } from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import PageWrapper from "../components/PageWrapper";
+import { Product } from "../model/Product";
 import { useAppDispatch, useAppSelector } from "../store";
+import { addProduct } from "../store/slices/cart";
+import { setProduct } from "../store/slices/product";
 import { fetchUserById } from "../store/thunks/user";
 
 export default function ProducDetailPage() {
     const dispatch = useAppDispatch()
-    const { productDetail } = useAppSelector(state => state.products)
+    const { productDetail, products } = useAppSelector(state => state.products)
     const { productId } = useParams()
 
+    // TODO: remove above logic after integrate
+    useEffect(
+        () => {
+            const selectedProduct = products.filter((product: Product) => {
+                return product.productId === productId
+            })
+            dispatch(setProduct(selectedProduct[0]));
+        }, [productId, products])
+
     useEffect(() => {
-        if (productId) dispatch(fetchUserById(productId));
+        if (productId) {
+            dispatch(fetchUserById(productId))
+        };
     }, [productId]);
 
+    function handleBuy() {
 
-    // if (!productDetail) return (
-    //     <>
-    //         <Box p='10'>
-    //             <Link to='/'>Go back</Link>
-    //             <Heading>Detalhe de produto</Heading>
-    //             <Skeleton>
-    //                 <Heading>Placeholder</Heading>
-    //                 <Text>description of product</Text>
-    //             </Skeleton>
-    //         </Box>
+    }
 
-    //     </>
-    // )
+    function handleAddCart() {
+        dispatch(addProduct(productDetail))
+    }
 
     return <>
-        <Box p={5}>
-            <Link to='/'>Go back</Link>
-            <Heading>Product Detail</Heading>
-            <Text>{productDetail?.name}</Text>
-
-            <Button colorScheme='teal'>Comprar</Button>
-        </Box>
+        <PageWrapper>
+            <Flex dir='row' justify='space-evenly' align='center'>
+                <Image w={400} src={productDetail?.image} />
+                <Box shadow='md' p='5' m='10' h='full' rounded='xl'>
+                    <VStack spacing='5' align='flex-start'>
+                        <Flex dir='row' justify='space-between' align='center' width='full'>
+                            <Heading>{productDetail?.name}</Heading>
+                            <IconButton size='sm' aria-label="wishlist" icon={<FaHeart />} colorScheme='gray'></IconButton>
+                        </Flex>
+                        <Text fontSize='xl'>{productDetail?.description}</Text>
+                        <Text fontSize='2xl'>{productDetail?.value}</Text>
+                        <HStack alignItems={'flex-start'}>
+                            <Button onClick={handleBuy} size='md' colorScheme='blue'>Buy</Button>
+                            <Button onClick={handleAddCart}>Add to cart</Button>
+                        </HStack>
+                    </VStack>
+                </Box>
+            </Flex>
+        </PageWrapper>
     </>;
 }

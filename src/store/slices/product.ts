@@ -1,7 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "../../model/Product";
 import { fetchProductById, fetchProducts } from "../thunks/product";
 import products from '../mock/products.json'
+
 
 type InitialStateType = {
   products: Product[],
@@ -26,6 +27,9 @@ const productSlice = createSlice({
     setProducts: (state, action) => {
       state.products = action.payload;
     },
+    setProduct: (state, action: PayloadAction<Product>) => {
+      state.productDetail = action.payload;
+    }
 
   },
 
@@ -40,6 +44,6 @@ const productSlice = createSlice({
   },
 });
 
-export const { setProducts } = productSlice.actions;
+export const { setProducts, setProduct } = productSlice.actions;
 
 export const ProductReducer = productSlice.reducer;

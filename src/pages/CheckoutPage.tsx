@@ -1,9 +1,12 @@
-import React from 'react'
-
+import { Text, Heading } from '@chakra-ui/react'
+import PageWrapper from '../components/PageWrapper'
 export default function CheckoutPage() {
     return (
-        <div>
-
-        </div>
+        <>
+            <PageWrapper>
+                <Heading>Checkout</Heading>
+                <Text>Itens in cart</Text>
+            </PageWrapper>
+        </>
     )
 }

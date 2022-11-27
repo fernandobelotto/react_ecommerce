@@ -1,28 +1,28 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "../model/Product";
 
 type InitialState = {
-  bookmarks: Product[];
+  products: Product[];
 };
 const initialState: InitialState = {
-  bookmarks: [],
+  products: [],
 };
 
 const bookmarkSlice = createSlice({
   name: "bookmark",
   initialState,
   reducers: {
-    addProduct: (state, action) => {
-      state.bookmarks.push(action.payload);
+    bookmarkProduct: (state, action: PayloadAction<Product>) => {
+      state.products.push(action.payload);
     },
-    removeProduct: (state, action) => {
-      state.bookmarks = state.bookmarks.filter(
-        (product) => product.productId !== action.payload.id
+    removeBookmark: (state, action: PayloadAction<string>) => {
+      state.products = state.products.filter(
+        (product) => product.id !== action.payload
       );
     },
   },
 });
 
-export const { addProduct, removeProduct } = bookmarkSlice.actions;
+export const { bookmarkProduct, removeBookmark } = bookmarkSlice.actions;
 
 export const bookmarkReducer = bookmarkSlice.reducer;

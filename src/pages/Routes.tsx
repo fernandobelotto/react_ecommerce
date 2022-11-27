@@ -13,9 +13,9 @@ export default function AppRoutes() {
     <>
       <BrowserRouter>
         <ReactRoutes>
-          <Route path="/"  element={<App />}>
+          <Route path="/" element={<App />}>
             <Route index element={<ProducListPage />} />
-            <Route path="products/:productId" element={<ProducDetailPage />} />
+            <Route path="products/:id" element={<ProducDetailPage />} />
             <Route path="checkout" element={<CheckoutPage />} />
             <Route path="cart" element={<CartPage />} />
             <Route path="bookmark" element={<BookmarkPage />} />
